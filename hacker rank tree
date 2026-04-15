@@ -1,0 +1,144 @@
+1] with Ada.Text_IO; use Ada.Text_IO;
+with Ada.Integer_Text_IO; use Ada.Integer_Text_IO;
+
+procedure Solution is
+
+   type Node;
+   type Node_Ptr is access Node;
+
+   type Node is record
+      Data  : Integer;
+      Left  : Node_Ptr := null;
+      Right : Node_Ptr := null;
+   end record;
+
+   -- Insert into BST
+   function Insert(Root : Node_Ptr; Val : Integer) return Node_Ptr is
+   begin
+      if Root = null then
+         return new Node'(Val, null, null);
+      elsif Val < Root.Data then
+         Root.Left := Insert(Root.Left, Val);
+      elsif Val > Root.Data then
+         Root.Right := Insert(Root.Right, Val);
+      end if;
+      return Root;
+   end Insert;
+
+   -- Trim leading space from Integer'Image
+   function Trim_Image(N : Integer) return String is
+      S : constant String := Integer'Image(N);
+   begin
+      return S(S'First + 1 .. S'Last);
+   end Trim_Image;
+
+   -- Inorder traversal
+   procedure Inorder(Root : Node_Ptr) is
+   begin
+      if Root /= null then
+         Inorder(Root.Left);
+         Put(Trim_Image(Root.Data));
+         Put(" ");
+         Inorder(Root.Right);
+      end if;
+   end Inorder;
+
+   Root : Node_Ptr := null;
+   N, Val, Extra : Integer;
+
+begin
+   -- Read number of routers
+   Get(N);
+
+   -- Check invalid input
+   if N = -1 then
+      Put("Invalid input");
+      return;
+   end if;
+
+   -- Insert N router IDs
+   for I in 1 .. N loop
+      Get(Val);
+      Root := Insert(Root, Val);
+   end loop;
+
+   -- Insert additional router
+   Get(Extra);
+   Root := Insert(Root, Extra);
+
+   -- Output inorder traversal
+   Inorder(Root);
+
+end Solution;
+2] with Ada.Text_IO; use Ada.Text_IO;
+with Ada.Integer_Text_IO; use Ada.Integer_Text_IO;
+
+procedure Solution is
+
+   type Node;
+   type Node_Ptr is access Node;
+
+   type Node is record
+      Data  : Integer;
+      Left  : Node_Ptr := null;
+      Right : Node_Ptr := null;
+   end record;
+
+   -- Insert into BST
+   function Insert(Root : Node_Ptr; Val : Integer) return Node_Ptr is
+   begin
+      if Root = null then
+         return new Node'(Val, null, null);
+      elsif Val < Root.Data then
+         Root.Left := Insert(Root.Left, Val);
+      elsif Val > Root.Data then
+         Root.Right := Insert(Root.Right, Val);
+      end if;
+      return Root;
+   end Insert;
+
+   -- Trim leading space from Integer'Image
+   function Trim_Image(N : Integer) return String is
+      S : constant String := Integer'Image(N);
+   begin
+      return S(S'First + 1 .. S'Last);
+   end Trim_Image;
+
+   -- Inorder traversal
+   procedure Inorder(Root : Node_Ptr) is
+   begin
+      if Root /= null then
+         Inorder(Root.Left);
+         Put(Trim_Image(Root.Data));
+         Put(" ");
+         Inorder(Root.Right);
+      end if;
+   end Inorder;
+
+   Root : Node_Ptr := null;
+   N, Val, Extra : Integer;
+
+begin
+   -- Read number of routers
+   Get(N);
+
+   -- Check invalid input
+   if N = -1 then
+      Put("Invalid input");
+      return;
+   end if;
+
+   -- Insert N router IDs
+   for I in 1 .. N loop
+      Get(Val);
+      Root := Insert(Root, Val);
+   end loop;
+
+   -- Insert additional router
+   Get(Extra);
+   Root := Insert(Root, Extra);
+
+   -- Output inorder traversal
+   Inorder(Root);
+
+end Solution;
