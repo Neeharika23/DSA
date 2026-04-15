@@ -1,0 +1,107 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+struct Node
+{
+    char name[50];
+    struct Node *child;
+    struct Node *sibling;
+};
+
+struct Node* createNode(char name[])
+{
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    strcpy(newNode->name, name);
+    newNode->child = NULL;
+    newNode->sibling = NULL;
+    return newNode;
+}
+
+void addEmployee(struct Node* manager, char name[])
+{
+    struct Node* newNode = createNode(name);
+
+    if(manager->child == NULL)
+        manager->child = newNode;
+    else
+    {
+        struct Node* temp = manager->child;
+        while(temp->sibling != NULL)
+            temp = temp->sibling;
+        temp->sibling = newNode;
+    }
+}
+
+void displayHierarchy(struct Node* root, int level)
+{
+    if(root == NULL)
+        return;
+
+    for(int i=0;i<level;i++)
+        printf("  ");
+
+    printf("%s\n", root->name);
+
+    displayHierarchy(root->child, level+1);
+    displayHierarchy(root->sibling, level);
+}
+
+void searchEmployee(struct Node* root, char key[])
+{
+    if(root == NULL)
+        return;
+
+    if(strcmp(root->name, key) == 0)
+    {
+        printf("Employee Found: %s\n", root->name);
+        return;
+    }
+
+    searchEmployee(root->child, key);
+    searchEmployee(root->sibling, key);
+}
+
+int main()
+{
+    struct Node* root = createNode("CEO");
+    int choice;
+    char name[50];
+
+    while(1)
+    {
+        printf("\n--- Organization Menu ---\n");
+        printf("1. Add Employee\n");
+        printf("2. Display Hierarchy\n");
+        printf("3. Search Employee\n");
+        printf("4. Exit\n");
+
+        printf("Enter choice: ");
+        scanf("%d",&choice);
+
+        switch(choice)
+        {
+            case 1:
+                printf("Enter employee name: ");
+                scanf("%s",name);
+                addEmployee(root,name);
+                break;
+
+            case 2:
+                displayHierarchy(root,0);
+                break;
+
+            case 3:
+                printf("Enter employee to search: ");
+                scanf("%s",name);
+                searchEmployee(root,name);
+                break;
+
+            case 4:
+                exit(0);
+
+            default:
+                printf("Invalid choice\n");
+        }
+    }
+}
